@@ -1,40 +1,24 @@
 import React, { useState } from "react";
-import { getPuzzles } from './DataController';
-import { Container, Grid } from "@mui/material";
+import { getPuzzles, addPuzzle } from './DataController';
+import { Container, Button, TextField } from "@mui/material";
+import RowView from './RowView';
 
 const TableView = () => {
 
-  const [isRow, setIsRow] = useState('row');
+  const [newName, setNewName] = useState('');
+  const [newFastestTime, setNewFastestTime] = useState(0);
+  const [newImageURL, setNewImageURL] = useState('');
   const [dataArray, setDataArray] = useState([]);
   
   // Stores content from backend in array of photos and content
   getPuzzles(setDataArray);
 
+  // Adds new puzzle to database if new one created
+  const handleNewPuzzle = () => addPuzzle(newName, setNewName, newFastestTime, setNewFastestTime, newImageURL, setNewImageURL);
+
   // Loops through photos then content
   const gridBoxes = dataArray.map((row, index) => {
-    return <Grid 
-      container
-      key={`${row.name}->${index}`}
-      direction={isRow}
-      justify="space-evenly"
-      alignItems="center"
-    >
-      <Grid
-        item
-        key={`puzzlePic${index}`}
-        xs={ isRow==='row' ? 2 : 12 }
-      >
-        <img src={row.image} style={{width: '300px'}} />
-      </Grid>
-      <Grid
-        item
-        key={`puzzleData${index}`}
-        xs={ isRow==='row' ? 10 : 12 }
-      >
-        {row.name}
-        {row.times}
-      </Grid>
-    </Grid>
+    return <RowView key={`${row.name}->${index}`} row={row} index={index} />
   });
 
   return (
@@ -43,6 +27,20 @@ const TableView = () => {
       align="center"
     >
       <h1 style={{height: '60px', display: 'flex', alignItems: 'center', justifyContent: 'center'}}>puzzleTracker</h1>
+      <Container
+        justify="center"
+        align="center"
+        display="flex"
+        style={{borderBottom: "5px solid #999", paddingBottom: 10}}
+      >
+        <div style={{marginTop: -10}}><strong>New Puzzle</strong></div>
+        <br />
+        <TextField label="Name" style={{margin: 10}} value={newName} onChange={e => setNewName(e.target.value)}/>
+        <TextField label="Fastest Time (s)" style={{margin: 10}} type="number" value={newFastestTime} onChange={e => setNewFastestTime(e.target.value)}/>
+        <TextField label="Image URL" style={{margin: 10}} value={newImageURL} onChange={e => setNewImageURL(e.target.value)}/>
+        <br />
+        <Button variant="contained" style={{margin: 10, backgroundColor: 'green'}} onClick={handleNewPuzzle}>Add Puzzle</Button>
+      </Container>
       {gridBoxes}
     </Container>
   );
