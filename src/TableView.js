@@ -35,11 +35,13 @@ const TableView = () => {
       >
         <div style={{marginTop: -10}}><strong>New Puzzle</strong></div>
         <br />
-        <TextField label="Name" style={{margin: 10}} value={newName} onChange={e => setNewName(e.target.value)}/>
-        <TextField label="Fastest Time (s)" style={{margin: 10}} type="number" value={newFastestTime} onChange={e => setNewFastestTime(e.target.value)}/>
-        <TextField label="Image URL" style={{margin: 10}} value={newImageURL} onChange={e => setNewImageURL(e.target.value)}/>
+        <TextField required label="Name" style={{margin: 10}} value={newName} onChange={e => setNewName(e.target.value)}/>
+        <TextField required label="Fastest Time (s)" style={{margin: 10}} type="number" value={newFastestTime} onChange={e => setNewFastestTime(e.target.value)}/>
+        <TextField required label="Image URL" style={{margin: 10}} value={newImageURL} onChange={e => setNewImageURL(e.target.value)}/>
         <br />
-        <Button variant="contained" style={{margin: 10, backgroundColor: 'green'}} onClick={handleNewPuzzle}>Add Puzzle</Button>
+        <Button disabled={!newName || !newFastestTime || !newImageURL} variant="contained" style={{margin: 10}} sx={{ backgroundColor: 'green' }} onClick={handleNewPuzzle}>Add Puzzle</Button>
+        <br />
+        Field Required *
       </Container>
       {gridBoxes}
     </Container>
