@@ -1,6 +1,4 @@
-
-
-# puzzleTracker
+# puzzleTracker && puzzleTrackerServer
 
 PuzzleTracker and puzzleTrackerServer are integrated client/server repositories respectively. They allows users to track their puzzle times and collection.
 
